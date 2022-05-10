@@ -9,18 +9,24 @@
         </div>
         <div>
             <label>비밀번호</label>
-            <input type="text" name="password" id="password">
+            <input type="password" name="password" id="password">
         </div>
-        간격: <div id="output">ddd</div>
+        간격: <div id="output"></div>
         <script>
+            const output = document.getElementById('output');
+            const password = document.getElementById('password');
             let last;
-            let output = document.getElementById('output');
+            let data = new Array(); //키 간격 데이터 배열
+            let i = 0; //for문의 i
 
-            document.addEventListener("keypress", function (event) {
+            password.addEventListener("input", () => {
                 let n = new Date();
                 output.textContent = (last-n).toString() + 'ms';
+                data[i] = last-n;
+                i++;
                 last = n;
-            })
+            });
+
         </script>
         <button type="submit">로그인</button>
     </form>
