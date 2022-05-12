@@ -4,6 +4,7 @@ from . import views
 
 app_name = "t4s"
 urlpatterns = [
-    path('success/', views.index, name='index'),
+    path('test/', views.login, name='login2'),
+    path('success/', views.index, name='success'),
     path('', auth_views.LoginView.as_view(template_name='t4s/login.html'), name='login')
 ]
