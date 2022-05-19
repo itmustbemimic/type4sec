@@ -1,6 +1,12 @@
+import os
+
+import numpy
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib import auth
+from tensorflow.python.keras.models import load_model
+
+import numpy as np
 
 
 # login success page
@@ -16,7 +22,17 @@ def login(request):
 
         user = auth.authenticate(request, username=username, password=password)
 
-        print(request.POST)
+        keystroke = request.POST.get('keystroke')
+
+        model = load_model('t4s/securitycapstone.h5')
+        data = np.array(keystroke.split(","), dtype=int)
+        data = data*-1
+        data = np.array([data])
+        result = model.predict(data)
+
+        print(data.shape)
+        print(data)
+        print(result)
 
         if user is not None:
             auth.login(request, user)
