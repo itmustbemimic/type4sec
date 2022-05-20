@@ -1,12 +1,8 @@
 {% block content %}
 
-    <h1>로그인</h1>
-    <form method="post" action="{% url 't4s:loginfail' %}" id="form">
+    <h1>여기가 노가다 판이다</h1>
+    <form method="post" action="{% url 't4s:addmodel' %}" id="form">
         {% csrf_token %}
-        <div>
-            <label>사용자 ID</label>
-            <input type="text" name="username" id="username">
-        </div>
         <div>
             <label>비밀번호</label>
             <input type="password" name="password" id="password">
