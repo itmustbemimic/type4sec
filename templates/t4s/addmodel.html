@@ -28,11 +28,12 @@
                 last = n;
             });
 
-            //password blur 되는 순간 간격 배열 보여줌. 테스트용.
+            // password blur 되는 순간 간격 배열 보여줌. 테스트용.
             password.addEventListener("blur", () => {
                 output.textContent = keystroke.toString();
             })
 
+            // 아이디, 비밀번호, 키 간격 전송 함수
             function sendData() {
                 document.getElementById("keystroke").value = keystroke;
                 document.getElementById("form").submit();

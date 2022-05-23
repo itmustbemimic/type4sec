@@ -19,29 +19,33 @@ def login(request):
 
         user = auth.authenticate(request, username=username, password=password)
 
-        keystroke = request.POST.get('keystroke')
-
-        model = load_model('t4s/model/securitycapstone.h5')
-
-        data = np.array(keystroke.split(","), dtype=int)
-        data = data * -1
-        data = np.array([data])
-
-        result = model.predict(data)
-
-        print('========================================================')
-        print('data::\t\t', data)
-        print('result::\t', result)
-        print('========================================================')
-
-        # 로그인 성공
+        # 아이디 / 비밀번호 일치
         if user is not None:
+
+            keystroke = request.POST.get('keystroke')
+
+            model = load_model('t4s/model/securitycapstone.h5')
+
+            data = np.array(keystroke.split(","), dtype=int)
+            data = data * -1
+            data = np.array([data])
+
+            result = model.predict(data)
+
+            print('========================================================')
+            print('data::\t\t', data)
+            print('result::\t', result)
+            print('========================================================')
+
+            # TODO: result가 1이라면 auth.login으로 로그인 성공 처리
             auth.login(request, user)
             return redirect('t4s:success')
 
-        # 로그인 실패
+            # TODO: result가 2라면 로그인 실패
+
+        # 아이디 / 비밀번호 불일치
         else:
-            return render(request, 't4s/login.html', {'error': '로그인 실패'})
+            return render(request, 't4s/login.html', {'error': '아이디 혹은 비밀번호 불일치'})
 
     else:
         return render(request, 't4s/login.html')
@@ -63,7 +67,6 @@ def join(request):
 
 # 모델추가
 def addmodel(request):
-
     if request.method == "POST":
 
         keystroke = request.POST.get('keystroke')
