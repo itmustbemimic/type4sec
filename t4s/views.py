@@ -67,6 +67,7 @@ def addmodel(request):
     if request.method == "POST":
 
         keystroke = request.POST.get('keystroke')
+        print(keystroke)
 
         data = np.array(keystroke.split(","), dtype=int)
         data = data * -1
