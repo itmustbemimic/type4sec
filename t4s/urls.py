@@ -4,6 +4,7 @@ from . import views
 
 app_name = "t4s"
 urlpatterns = [
+    path('testpage/', views.testpage, name='testpage'),
     path('addmodel/', views.addmodel, name='addmodel'),
     path('join/', views.join, name='join'),
     path('success/', views.index, name='success'),

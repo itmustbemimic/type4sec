@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib import auth
-from tensorflow.python.keras.models import load_model
+from tensorflow.python.keras.models import load_model, Sequential
+from tensorflow.python.keras.layers import Dense
+import matplotlib.pyplot as plt
+import os
 
 import numpy as np
 
@@ -9,6 +12,50 @@ import numpy as np
 # login success page
 def index(request):
     return HttpResponse("login success!")
+
+
+def testpage(request):
+    if request.method == "POST":
+
+        keystroke = request.POST.get('keystroke')
+        print(keystroke)
+
+        x_train = np.load('t4s/model/x_train.npy')
+        x_train = x_train * -1
+        print(x_train)
+
+        y_train = np.array([[1], [1], [1], [1], [1]])
+
+        x_test = x_train
+        y_test = y_train
+
+        model = Sequential()
+        model.add(Dense(1, input_shape=(x_train.shape[1]), activation='sigmoid'))
+
+        model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['acc'])
+        y = model.fit(x_train, y_train, epochs=100, validation_data=(x_test, y_test))
+        plt.style.use('default')
+        plt.rcParams['figure.figsize'] = (4, 3)
+        plt.rcParams['font.size'] = 12
+
+        loss = y.history['loss']
+        plt.plot(loss)
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.show()
+
+        data = np.array(keystroke.split(","), dtype=int)
+        data = data * -1
+        data = np.array([data])
+
+        result1 = model.predict(data)
+
+        print(result1)
+
+        return render(request, 't4s/testpage.html', {'count': result1})
+
+    else:
+        return render(request, 't4s/testpage.html')
 
 
 # 로그인 페이지
@@ -22,7 +69,7 @@ def login(request):
         # 아이디 / 비밀번호 일치
         if user is not None:
 
-            keystroke = request.POST.get('keystroke')
+            keystroke = request.POST.get('keystroke').strip()
 
             model = load_model('t4s/model/securitycapstone.h5')
 
@@ -59,6 +106,12 @@ def join(request):
         password2 = request.POST['password2']
 
         print(request.POST)
+
+        os.mkdir('t4s/model/' + username)
+
+        # TODO: 입력 받은 비밀번호들을 이용해 1차 학습 모델링 저장
+        # TODO: n번마다 새로 모델링을 하기 위한 카운트 설정. 데이터는 각 유저 폴더에 npy로 저장해 둘 예정
+
         return render(request, 't4s/join.html')
 
     else:
