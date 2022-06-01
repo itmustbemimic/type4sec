@@ -79,34 +79,16 @@
             });
 
 
-            //password1의 입력이 끝나 blur 되었을 때
-            password1.addEventListener("blur", () => {
-                initVar();
-            });
-
-            //password2의 입력이 끝나 blur 되었을 때
-            password2.addEventListener("blur", () => {
-                initVar();
-            });
-
-            //password3의 입력이 끝나 blur 되었을 때
-            password3.addEventListener("blur", () => {
-                initVar();
-            });
-
-            //password4의 입력이 끝나 blur 되었을 때
-            password4.addEventListener("blur", () => {
-                initVar();
-            });
-
-            //password5의 입력이 끝나 blur 되었을 때
-            password5.addEventListener("blur", () => {
-                initVar();
-            });
+            //password 의 입력이 끝나 blur 되었을 때
+            password1.addEventListener("blur", initVar);
+            password2.addEventListener("blur", initVar);
+            password3.addEventListener("blur", initVar);
+            password4.addEventListener("blur", initVar);
+            password5.addEventListener("blur", initVar);
 
 
 
-
+            // 전송 버튼 눌렀을 때 실행될 함수
             function sendData() {
                 document.getElementById("keystroke1").value = keystroke1;
                 document.getElementById("keystroke2").value = keystroke2;
@@ -116,6 +98,7 @@
                 document.getElementById("form").submit();
             }
 
+            // 각 필드의 입력이 끝났을 때 필요한 변수 초기화
             function initVar() {
                 last = null;
                 i = -1;
