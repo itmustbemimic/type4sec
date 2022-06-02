@@ -8,6 +8,8 @@ from tensorflow.python.keras.layers import Dense
 import matplotlib.pyplot as plt
 import os
 
+from t4s.tf.tf import generate_model
+
 import numpy as np
 
 
@@ -69,6 +71,8 @@ def join(request):
         password4 = request.POST['password4']
         password5 = request.POST['password5']
 
+        keystroke1 = request.POST['keystroke1']
+
         if password1 == password2 == password3 == password4 == password5:
             try:
                 User.objects.create_user(username=username, password=password1)
@@ -81,13 +85,18 @@ def join(request):
             if os.path.isdir('t4s/model/' + username) is False:
                 os.mkdir('t4s/model/' + username)
 
+            # keystroke numpy 가공
+            data = np.array(keystroke1.split(","), dtype=int)
+            data = data * -1
+            data = np.array([data])
 
+            # h5 파일 생성 TODO: 입력받은 5개 비밀번호 모두 h5에 적용해야됨. 현재는 1번째 비밀번호만.
+            generate_model(data).save('t4s/model/' + username + '.h5')
 
             return render(request, 't4s/join.html', {'error': '회원가입 성공'})
         else:
             return render(request, 't4s/join.html', {'error': '비밀번호 확인'})
 
-        # TODO: 입력 받은 비밀번호들을 이용해 1차 학습 모델링 저장
         # TODO: n번마다 새로 모델링을 하기 위한 카운트 설정. 데이터는 각 유저 폴더에 npy로 저장해 둘 예정
 
         return render(request, 't4s/join.html')

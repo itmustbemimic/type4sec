@@ -27,6 +27,5 @@ def generate_model(input_array):
     model = Sequential()
     model.add(Dense(1, input_shape=(x_train.shape[1],), activation='sigmoid'))
     model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['acc'])
-    y = model.fit(x_train, y_train, epochs=100, validation_split=0.2)
+    model.fit(x_train, y_train, epochs=100, validation_split=0.2)
     return model
-    #model.save("security.h5")
