@@ -81,6 +81,8 @@ def join(request):
             if os.path.isdir('t4s/model/' + username) is False:
                 os.mkdir('t4s/model/' + username)
 
+
+
             return render(request, 't4s/join.html', {'error': '회원가입 성공'})
         else:
             return render(request, 't4s/join.html', {'error': '비밀번호 확인'})

@@ -3,15 +3,13 @@ import random
 from tensorflow.python.keras.models import load_model, Sequential
 from tensorflow.python.keras.layers import Dense
 
-y_true = np.array([[1]])
-y_false = np.array([[0]])
-x_train = np.empty((0, 8), int)
-y_train = np.empty((0, 1), int)
 
+def generate_model(input_array):
+    y_true = np.array([[1]])
+    y_false = np.array([[0]])
+    x_train = np.empty((0, input_array.shape[1]), int)
+    y_train = np.empty((0, 1), int)
 
-def moa(input_array):
-    global x_train
-    global y_train
     broker = np.empty((0, input_array.shape[1]), int)
     broker2 = np.zeros((1, input_array.shape[1]))
     for i in range(1000):
@@ -26,9 +24,9 @@ def moa(input_array):
         broker = np.delete(broker, 0, axis=0)
         broker2 = np.zeros((1, input_array.shape[1]))
 
-
-model = Sequential()
-model.add(Dense(1, input_shape=(x_train.shape[1],), activation='sigmoid'))
-model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['acc'])
-model.fit(x_train, y_train, epochs=100, validation_split=0.2)
-model.save("security.h5")
+    model = Sequential()
+    model.add(Dense(1, input_shape=(x_train.shape[1],), activation='sigmoid'))
+    model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['acc'])
+    y = model.fit(x_train, y_train, epochs=100, validation_split=0.2)
+    return model
+    #model.save("security.h5")
