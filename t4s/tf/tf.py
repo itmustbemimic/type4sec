@@ -14,9 +14,11 @@ def generate_model(input_array):
     broker2 = np.zeros((1, input_array.shape[1]))
     for i in range(1000):
         broker = np.append(broker, input_array, axis=0)
+
         for j in range(input_array.shape[1]):
             broker[0][j] += random.randint(-10, 10)
             broker2[0][j] += random.randint(0, 500)
+
         x_train = np.append(x_train, broker, axis=0)
         x_train = np.append(x_train, broker2, axis=0)
         y_train = np.append(y_train, y_true, axis=0)
@@ -29,3 +31,11 @@ def generate_model(input_array):
     model.compile(optimizer='SGD', loss='binary_crossentropy', metrics=['acc'])
     model.fit(x_train, y_train, epochs=100, validation_split=0.2)
     return model
+
+
+def to_np(keystroke):
+    data = np.array(keystroke.split(","), dtype=int)
+    data = data * -1
+    data = np.array([data])
+
+    return data
