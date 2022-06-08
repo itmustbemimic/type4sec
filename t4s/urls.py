@@ -6,7 +6,8 @@ app_name = "t4s"
 urlpatterns = [
     path('addmodel/', views.addmodel, name='addmodel'),
     path('join/', views.join, name='join'),
-    path('success/', views.index, name='success'),
-    path('fail/', views.login, name='loginfail'),
-    path('', auth_views.LoginView.as_view(template_name='t4s/login.html'), name='login')
+    path('success/', views.success, name='success'),
+    path('fail/', views.fail, name='fail'),
+    path('', views.login, name='login')
+    # path('', auth_views.LoginView.as_view(template_name='t4s/login.html'), name='login')
 ]

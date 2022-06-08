@@ -13,8 +13,12 @@ import numpy as np
 
 
 # login success page
-def index(request):
+def success(request):
     return HttpResponse("login success!")
+
+
+def fail(request):
+    return HttpResponse("login fail")
 
 
 # 로그인 페이지
@@ -45,7 +49,7 @@ def login(request):
                 return redirect('t4s:success')
 
             else:  # result가 0 로그인 실패
-                return redirect('t4s:loginfail')
+                return redirect('t4s:fail')
 
         # 아이디 / 비밀번호 불일치
         else:
