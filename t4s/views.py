@@ -40,12 +40,12 @@ def login(request):
             print('result::\t', result)
             print('========================================================')
 
-            if result:  # result가 1라면 로그인 실패
-                return redirect('t4s:loginfail')
-
-            else:  # result가 0이라면 auth.login으로 로그인 성공 처리
+            if result:  # result 1 로그인성공
                 auth.login(request, user)
                 return redirect('t4s:success')
+
+            else:  # result가 0 로그인 실패
+                return redirect('t4s:loginfail')
 
         # 아이디 / 비밀번호 불일치
         else:
@@ -80,7 +80,11 @@ def join(request):
 
             # keystroke의 길이가 모두 같은지 검사
             if keystroke1.shape[1] == keystroke2.shape[1] == keystroke3.shape[1] == keystroke4.shape[1] == keystroke5.shape[1]:
-                keystroke = np.append(keystroke1, keystroke2, keystroke3, keystroke4, keystroke5, axis=0)
+                keystroke = np.append(keystroke1, keystroke2, axis=0)
+                keystroke = np.append(keystroke, keystroke3, axis=0)
+                keystroke = np.append(keystroke, keystroke4, axis=0)
+                keystroke = np.append(keystroke, keystroke5, axis=0)
+                print(keystroke)
 
             else:
                 return render(request, 't4s/join.html', {'error': '오타 없이 한번에'})
@@ -95,7 +99,7 @@ def join(request):
             if os.path.isdir('t4s/model/' + username) is False:
                 os.mkdir('t4s/model/' + username)
 
-            # h5 파일 생성 TODO: 입력받은 5개 비밀번호 모두 h5에 적용해야됨. 현재는 1번째 비밀번호만.
+            # h5 파일 생성
             generate_model(keystroke).save(f"t4s/model/{username}/{username}.h5")
 
             return render(request, 't4s/join.html', {'error': '회원가입 성공'})
