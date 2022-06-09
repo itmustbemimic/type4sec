@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 import os
 
+from django.utils import asyncio
 from tensorflow.python.keras.models import load_model
 
 from t4s.tf.tf import generate_model, to_np, add_to_file
@@ -104,7 +105,7 @@ def join(request):
 
             # 유저별 h5 파일과 npy 파일을 저장할 폴더 생성.
             if os.path.isdir('t4s/model/' + username) is False:
-                os.mkdir('t4s/model/' + username)
+                os.makedirs('t4s/model/' + username)
 
             # 입력 받은 keystroke 데이터 numpy 파일로 저장
             print(':::::::::', keystroke)
