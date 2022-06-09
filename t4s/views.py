@@ -118,7 +118,6 @@ def join(request):
         else:
             return render(request, 't4s/join.html', {'error': '비밀번호 확인'})
 
-        # TODO: n번마다 새로 모델링을 하기 위한 카운트 설정. 데이터는 각 유저 폴더에 npy로 저장해 둘 예정
 
     else:
         return render(request, 't4s/join.html')

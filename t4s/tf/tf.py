@@ -58,6 +58,10 @@ def add_to_file(keystroke, username):
 
     print(x_train.shape[0])
     print(x_train.shape[1])
+
+    # 10번 로그인 할때 마다 추가 학습 진행
+    if x_train.shape[0] % 10 == 0:
+        generate_model(x_train).save(f"t4s/model/{username}/{username}.h5")
     np.save(f"t4s/model/{username}/x_train.npy", x_train)
 
     return
