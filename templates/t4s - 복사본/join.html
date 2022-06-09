@@ -1,0 +1,118 @@
+{% block content %}
+
+    <h1>회원가입</h1>
+    <form method="post" action="{% url 't4s:join' %}" id="form">
+        {% csrf_token %}
+        <div>
+            <label>사용자 ID</label>
+            <input type="text" name="username" id="username">
+        </div>
+        <div>
+            <label>비밀번호1</label>
+            <input type="password" name="password1" id="password1">
+        </div>
+        <div>
+            <label>비밀번호2</label>
+            <input type="password" name="password2" id="password2">
+        </div>
+        <div>
+            <label>비밀번호3</label>
+            <input type="password" name="password3" id="password3">
+        </div>
+        <div>
+            <label>비밀번호4</label>
+            <input type="password" name="password4" id="password4">
+        </div>
+        <div>
+            <label>비밀번호5</label>
+            <input type="password" name="password5" id="password5">
+        </div>
+        <script>
+            const password1 = document.getElementById('password1');
+            const password2 = document.getElementById('password2');
+            const password3 = document.getElementById('password3');
+            const password4 = document.getElementById('password4');
+            const password5 = document.getElementById('password5');
+
+            let last;
+            let keystroke1 = []; //키 간격 데이터 배열
+            let keystroke2 = [];
+            let keystroke3 = [];
+            let keystroke4 = [];
+            let keystroke5 = [];
+
+            let i = -1; //0으로 하면 누르는 순간 i가 1증가. 배열의 첫번째 값이 NaN이 됨
+
+            password1.addEventListener("input", () => {
+                let n = new Date();
+                keystroke1[i] = last-n;
+                i++;
+                last = n;
+            });
+
+            password2.addEventListener("input", () => {
+                let n = new Date();
+                keystroke2[i] = last-n;
+                i++;
+                last = n;
+            });
+
+            password3.addEventListener("input", () => {
+                let n = new Date();
+                keystroke3[i] = last-n;
+                i++;
+                last = n;
+            });
+
+            password4.addEventListener("input", () => {
+                let n = new Date();
+                keystroke4[i] = last-n;
+                i++;
+                last = n;
+            });
+
+            password5.addEventListener("input", () => {
+                let n = new Date();
+                keystroke5[i] = last-n;
+                i++;
+                last = n;
+            });
+
+
+            //password 의 입력이 끝나 blur 되었을 때
+            password1.addEventListener("blur", initVar);
+            password2.addEventListener("blur", initVar);
+            password3.addEventListener("blur", initVar);
+            password4.addEventListener("blur", initVar);
+            password5.addEventListener("blur", initVar);
+
+
+
+            // 전송 버튼 눌렀을 때 실행될 함수
+            function sendData() {
+                document.getElementById("keystroke1").value = keystroke1;
+                document.getElementById("keystroke2").value = keystroke2;
+                document.getElementById("keystroke3").value = keystroke3;
+                document.getElementById("keystroke4").value = keystroke4;
+                document.getElementById("keystroke5").value = keystroke5;
+                document.getElementById("form").submit();
+            }
+
+            // 각 필드의 입력이 끝났을 때 필요한 변수 초기화
+            function initVar() {
+                last = null;
+                i = -1;
+            }
+
+        </script>
+        <input type="hidden" name="keystroke1" id="keystroke1">
+        <input type="hidden" name="keystroke2" id="keystroke2">
+        <input type="hidden" name="keystroke3" id="keystroke3">
+        <input type="hidden" name="keystroke4" id="keystroke4">
+        <input type="hidden" name="keystroke5" id="keystroke5">
+        <button type="button" onclick="sendData()">회원가입</button>
+    </form>
+
+    <h1>{{ error }}</h1>
+
+{% endblock %}

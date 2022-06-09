@@ -7,7 +7,7 @@ import os
 
 from tensorflow.python.keras.models import load_model
 
-from t4s.tf.tf import generate_model, to_np
+from t4s.tf.tf import generate_model, to_np, add_to_file
 
 import numpy as np
 
@@ -45,6 +45,9 @@ def login(request):
             print('========================================================')
 
             if result:  # result 1 로그인성공
+                # 로그인 성공 시 keystroke 추가 수집 => 추가 학습. 정확도 향상
+                add_to_file(data, username)
+
                 auth.login(request, user)
                 return redirect('t4s:success')
 
@@ -103,6 +106,9 @@ def join(request):
             if os.path.isdir('t4s/model/' + username) is False:
                 os.mkdir('t4s/model/' + username)
 
+            # 입력 받은 keystroke 데이터 numpy 파일로 저장
+            print(':::::::::', keystroke)
+            add_to_file(keystroke, username)
             # h5 파일 생성
             generate_model(keystroke).save(f"t4s/model/{username}/{username}.h5")
 

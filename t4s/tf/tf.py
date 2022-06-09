@@ -44,3 +44,20 @@ def to_np(keystroke):
     data = np.array([data])
 
     return data
+
+
+def add_to_file(keystroke, username):
+    # data = to_np(keystroke)
+    data = keystroke
+
+    try:
+        x_train = np.load(f"t4s/model/{username}/x_train.npy")
+        x_train = np.append(x_train, data, axis=0)
+    except FileNotFoundError:
+        x_train = data
+
+    print(x_train.shape[0])
+    print(x_train.shape[1])
+    np.save(f"t4s/model/{username}/x_train.npy", x_train)
+
+    return
